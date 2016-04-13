@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	//	"io"
-	"gogist/client"
+	"gogist/gogist"
 	"os"
 )
 
@@ -54,30 +54,5 @@ func main() {
 
 	fmt.Println(username, password)
 
-	type auth struct {
-		username string
-		password string
-	}
-
-	const url string = "https://api.github.com/authorizations"
-
-	code, body := client.Post(url, `{"note": "Gogist2 tool", "scope": "gists"}`, username, password)
-	fmt.Println(code)
-	fmt.Println(body)
-
-	/*
-		for _, fn := range flag.Args() {
-			f, err := os.Open(fn)
-
-			if err != nil {
-				panic(err)
-			}
-
-			_, err = io.Copy(os.Stdout, f)
-
-			if err != nil {
-				panic(err)
-			}
-		}
-	*/
+	gogist.CreateNewToken(username, password)
 }
