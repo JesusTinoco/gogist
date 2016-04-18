@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"gogist/client"
+	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -31,6 +32,8 @@ type App struct {
 	ClientId string `json:"client_id"`
 }
 
+var tokenPath string = os.Getenv("HOME") + "/.gogist"
+
 func CreateNewToken(username string, password string) {
 
 	code, body := client.Post(url, `{"note": "Gogist2 tool", "scope": "gists"}`, username, password)
@@ -49,10 +52,10 @@ func CreateNewToken(username string, password string) {
 		panic(err)
 	}
 
-	file, err := os.Create(".gogist")
+	err = ioutil.WriteFile(tokenPath, []byte(tokenJson.Token), 0660)
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
-	file.WriteString(tokenJson.Token)
+
+	fmt.Println("Token saved successfully in ", tokenPath)
 }
