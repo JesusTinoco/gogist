@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	//	"io"
 	"gogist/gogist"
+	"io/ioutil"
 	"os"
 )
 
@@ -55,4 +55,12 @@ func main() {
 	fmt.Println(username, password)
 
 	gogist.CreateNewToken(username, password)
+
+	content, err := ioutil.ReadFile("/Users/jesusrodrigueztinoco/.gogist")
+	if err != nil {
+		panic(err)
+	}
+
+	gogist.CreateGist(flag.Args(), false, "ddd", string(content))
+
 }
