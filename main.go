@@ -6,6 +6,7 @@ import (
 	"gogist/gogist"
 	"io/ioutil"
 	"os"
+	"strings"
 )
 
 const (
@@ -26,13 +27,24 @@ const (
 	VERSION = "v0.0.1"
 )
 
+var (
+	files       string
+	help        bool
+	login       bool
+	filename    string
+	kind        string
+	public      bool
+	description string
+)
+
 func init() {
 
-	flag.Bool("l", false, "Authenticate to GitHub")
-	flag.String("f", "", "Sets the `filename`")
-	flag.String("t", "", "Sets the `type`")
-	flag.Bool("p", false, "Sets the gist private")
-	flag.String("d", "", "Adds a `description` to the gist")
+	flag.BoolVar(&help, "help", false, "Help menu")
+	flag.BoolVar(&login, "l", false, "Authenticate to GitHub")
+	flag.StringVar(&filename, "f", "", "Sets the `filename`")
+	flag.StringVar(&kind, "t", "", "Sets the `type`")
+	flag.BoolVar(&public, "p", false, "Sets the gist private")
+	flag.StringVar(&description, "d", "", "Adds a `description` to the gist")
 
 	flag.Usage = func() {
 		fmt.Fprint(os.Stderr, fmt.Sprintf(BANNER, VERSION))
@@ -41,26 +53,36 @@ func init() {
 
 	flag.Parse()
 
-	if flag.NArg() == 0 {
+	if flag.NArg() >= 1 {
+		files = strings.Join(flag.Args(), " ")
+	}
+
+	if help {
 		flag.Usage()
-		os.Exit(1)
+		os.Exit(0)
 	}
 }
 
 func main() {
 
-	var username string = flag.Args()[0]
-	var password string = flag.Args()[1]
+	//var username string = flag.Args()[0]
+	//var password string = flag.Args()[1]
 
-	fmt.Println(username, password)
+	//fmt.Println(username, password)
 
-	gogist.CreateNewToken(username, password)
+	//gogist.CreateNewToken(username, password)
+
+	if login {
+		gogist.CreateNewToken()
+	}
 
 	content, err := ioutil.ReadFile("/Users/jesusrodrigueztinoco/.gogist")
 	if err != nil {
 		panic(err)
 	}
 
-	gogist.CreateGist(flag.Args(), false, "ddd", string(content))
+	fmt.Println(content)
+
+	//gogist.CreateGist(flag.Args(), false, "ddd", string(content))
 
 }

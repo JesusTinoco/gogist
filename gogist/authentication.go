@@ -4,33 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"gogist/client"
+	"gogist/gogist/dto"
 	"io/ioutil"
 	"os"
 	"strings"
 )
 
 const url string = "https://api.github.com/authorizations"
-
-type TokenJSON struct {
-	Id  int    `json:"id"`
-	Url string `json:"url"`
-	//App            []App  `json:"app"`
-	Token          string `json:"token"`
-	HashedToken    string `json:"hashed_token"`
-	TokenLastEight string `json:"token_last_eight"`
-	Note           string `json:"note"`
-	NoteUrl        string `json:"note_url"`
-	CreatedAt      string `json:"created_at"`
-	UpdatedAt      string `json:"updated_at"`
-	Scope          string `json:"scope"`
-	Fingerprint    string `json:"fingerprint"`
-}
-
-type App struct {
-	Name     string `json:"name"`
-	Url      string `json:"url"`
-	ClientId string `json:"client_id"`
-}
 
 var tokenPath string = os.Getenv("HOME") + "/.gogist"
 

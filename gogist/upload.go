@@ -5,28 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"gogist/client"
+	"gogist/gogist/dto"
 	"io/ioutil"
 	"path"
 	"strings"
 )
 
-type Gist struct {
-	Description string          `json:"description"`
-	Public      bool            `json:"public"`
-	Files       map[string]File `json:"files"`
-}
-
-type File struct {
-	Content string `json:"content"`
-}
-
-type Response struct {
-	Url string `json:"url"`
-}
-
 func CreateGist(fileList []string, isPublic bool, description string, accessToken string) {
 
-	files := make(map[string]File)
+	files := make(map[string]Dto.File)
 
 	for i := 0; i < len(fileList); i++ {
 		content, err := ioutil.ReadFile(fileList[i])
@@ -35,11 +22,11 @@ func CreateGist(fileList []string, isPublic bool, description string, accessToke
 
 		}
 		fileName := path.Base(fileList[i])
-		files[fileName] = File{Content: string(content)}
+		files[fileName] = Dto.File{Content: string(content)}
 
 	}
 
-	gist := Gist{Description: description, Public: isPublic, Files: files}
+	gist := Dto.Gist{Description: description, Public: isPublic, Files: files}
 
 	buf, err := json.Marshal(gist)
 	if err != nil {
