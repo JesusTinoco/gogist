@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"gogist/gogist"
-	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -41,8 +40,6 @@ func init() {
 
 	flag.BoolVar(&help, "help", false, "Help menu")
 	flag.BoolVar(&login, "l", false, "Authenticate to GitHub")
-	flag.StringVar(&filename, "f", "", "Sets the `filename`")
-	flag.StringVar(&kind, "t", "", "Sets the `type`")
 	flag.BoolVar(&public, "p", false, "Sets the gist private")
 	flag.StringVar(&description, "d", "", "Adds a `description` to the gist")
 
@@ -65,24 +62,9 @@ func init() {
 
 func main() {
 
-	//var username string = flag.Args()[0]
-	//var password string = flag.Args()[1]
-
-	//fmt.Println(username, password)
-
-	//gogist.CreateNewToken(username, password)
-
 	if login {
 		gogist.CreateNewToken()
 	}
 
-	content, err := ioutil.ReadFile("/Users/jesusrodrigueztinoco/.gogist")
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println(content)
-
-	//gogist.CreateGist(flag.Args(), false, "ddd", string(content))
-
+	gogist.CreateGist(flag.Args(), filename, public, description)
 }

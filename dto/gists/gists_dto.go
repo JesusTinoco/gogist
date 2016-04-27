@@ -1,4 +1,4 @@
-package Dto
+package GistsDto
 
 type Response struct {
 	Url         string                 `json:"url"`

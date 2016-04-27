@@ -5,15 +5,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"gogist/client"
-	"gogist/gogist/dto"
+	"gogist/dto/gists"
 	"io/ioutil"
 	"path"
 	"strings"
 )
 
-func CreateGist(fileList []string, isPublic bool, description string, accessToken string) {
+func CreateGist(fileList []string, filename string, isPublic bool, description string) {
 
-	files := make(map[string]Dto.File)
+	accessToken, err := ioutil.ReadFile(tokenPath)
+	if err != nil {
+		panic(err)
+	}
+
+	files := make(map[string]GistsDto.File)
 
 	for i := 0; i < len(fileList); i++ {
 		content, err := ioutil.ReadFile(fileList[i])
@@ -22,11 +27,10 @@ func CreateGist(fileList []string, isPublic bool, description string, accessToke
 
 		}
 		fileName := path.Base(fileList[i])
-		files[fileName] = Dto.File{Content: string(content)}
-
+		files[fileName] = GistsDto.File{Content: string(content)}
 	}
 
-	gist := Dto.Gist{Description: description, Public: isPublic, Files: files}
+	gist := GistsDto.Gist{Description: description, Public: isPublic, Files: files}
 
 	buf, err := json.Marshal(gist)
 	if err != nil {
@@ -34,13 +38,13 @@ func CreateGist(fileList []string, isPublic bool, description string, accessToke
 
 	}
 	jsonBody := bytes.NewBuffer(buf)
-
-	var newUrl string = "https://api.github.com/gists?access_token=" + accessToken
-
-	code, _ := client.Post(newUrl, jsonBody.String(), "", "")
+	var newUrl string = gistsUrl + strings.Trim(string(accessToken), " ")
+	code, body := client.Post(newUrl, jsonBody, "", "")
 
 	if strings.Contains(code, "201") {
 		fmt.Println("Gist create successfully")
+	} else {
+		panic(code + body)
 	}
 
 }

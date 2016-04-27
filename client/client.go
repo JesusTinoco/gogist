@@ -1,13 +1,13 @@
 package client
 
 import (
-	"bytes"
+	"io"
 	"io/ioutil"
 	"net/http"
 )
 
-func Post(url string, data string, username string, password string) (string, string) {
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(data)))
+func Post(url string, data io.Reader, username string, password string) (string, string) {
+	req, err := http.NewRequest("POST", url, data)
 
 	if username != "" && password != "" {
 		req.SetBasicAuth(username, password)
