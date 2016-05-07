@@ -1,6 +1,6 @@
 # gogist
 
-* gogist * is a command line tool that allows you to upload content to gists ([https://gist.github.com/](https://gist.github.com/)).
+**gogist** is a command line tool that allows you to upload content to gists ([https://gist.github.com/](https://gist.github.com/)).
 
 ```console
 → gogist --help
