@@ -53,6 +53,6 @@ Rigth now, you only can create gists associated to your GitHub account, you befo
 Obtaining OAuth2 access token from GitHub.
 Enter GitHub username: JesusTinoco
 Enter Github password: **************
-Token created successfully. It will be safe at ~/gogist
-Token saved successfully in  /Users/jesusrodrigueztinoco/.gogist
+Token created successfully. It will be safe at ~/.gogist
+Token saved successfully in  /Users/jesustinoco/.gogist
 ```
