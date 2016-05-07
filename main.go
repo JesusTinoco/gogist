@@ -32,7 +32,7 @@ var (
 	login       bool
 	filename    string
 	kind        string
-	public      bool
+	private     bool
 	description string
 )
 
@@ -40,7 +40,7 @@ func init() {
 
 	flag.BoolVar(&help, "help", false, "Help menu")
 	flag.BoolVar(&login, "l", false, "Authenticate to GitHub")
-	flag.BoolVar(&public, "p", false, "Sets the gist private")
+	flag.BoolVar(&private, "p", false, "Sets the gist private")
 	flag.StringVar(&description, "d", "", "Adds a `description` to the gist")
 
 	flag.Usage = func() {
@@ -65,6 +65,10 @@ func main() {
 	if login {
 		gogist.CreateNewToken()
 	} else {
+		var public bool = true
+		if private {
+			public = false
+		}
 		gogist.CreateGist(flag.Args(), filename, public, description)
 	}
 }
