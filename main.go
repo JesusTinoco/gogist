@@ -64,7 +64,7 @@ func main() {
 
 	if login {
 		gogist.CreateNewToken()
+	} else {
+		gogist.CreateGist(flag.Args(), filename, public, description)
 	}
-
-	gogist.CreateGist(flag.Args(), filename, public, description)
 }
